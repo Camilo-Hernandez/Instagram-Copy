@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.camihruiz24.instagramcopy.feature_login.presentation.LoginScreen
+import com.camihruiz24.instagramcopy.feature_login.presentation.LoginViewModel
 import com.camihruiz24.instagramcopy.ui.theme.InstagramCopyTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    LoginScreen()
+                    LoginScreen(LoginViewModel())
                 }
             }
         }

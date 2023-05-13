@@ -50,29 +50,40 @@ android {
 
 dependencies {
 
+    // Fundamentales de Android (core y activity)
     implementation 'androidx.core:core-ktx:1.10.1'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
     implementation 'androidx.activity:activity-compose:1.7.1'
+
+    // Dependencias de Compose
     implementation platform('androidx.compose:compose-bom:2022.10.00')
     implementation 'androidx.compose.ui:ui'
     implementation 'androidx.compose.ui:ui-graphics'
     implementation 'androidx.compose.ui:ui-tooling-preview'
     implementation 'androidx.compose.material3:material3'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+    androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
+
+    // Dependencias fundamentales de testing
+    // Core libraries
+    androidTestImplementation "androidx.test:core-ktx:1.5.0"
+    // JUnit y Truth para Assertions
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation "androidx.test.ext:truth:1.5.0"
+    // Espresso Dependency
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     // Librería de iconos
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
 
-    // Compose dependencies
+    // Lifecycle dependencies
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
-    // Lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
+    implementation 'androidx.compose.runtime:runtime-livedata:1.4.3'
+
 
     // -- Dependencias para usar Hilt, una biblioteca que simplifica la inyección de dependencias en Android
     // Dagger Hilt
@@ -111,16 +122,5 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.okhttp3:okhttp:5.0.0-alpha.2"
-
-    // Dependencias para Ktor Client (elegir entre Retrofit y Ktor para peticiones HTTP)
-    def ktor_version = "2.3.0"
-    implementation "io.ktor:ktor-client-core:$ktor_version"
-    implementation "io.ktor:ktor-client-android:$ktor_version"
-    implementation "io.ktor:ktor-client-serialization:$ktor_version"
-    implementation "io.ktor:ktor-client-logging:$ktor_version"
-    implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
-    implementation "io.ktor:ktor-serialization-kotlinx-json:$ktor_version"
-    implementation "ch.qos.logback:logback-classic:1.2.11"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
 
 }

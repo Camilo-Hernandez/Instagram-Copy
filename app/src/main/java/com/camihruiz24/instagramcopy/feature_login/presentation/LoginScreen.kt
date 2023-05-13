@@ -1,7 +1,6 @@
 package com.camihruiz24.instagramcopy.feature_login.presentation
 
 import android.app.Activity
-import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,9 +29,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -51,14 +50,14 @@ import androidx.compose.ui.unit.sp
 import com.camihruiz24.instagramcopy.R
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(loginViewModel: LoginViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
         Header(Modifier.align(Alignment.TopEnd))
-        Body(Modifier.align(Alignment.Center))
+        Body(Modifier.align(Alignment.Center), loginViewModel)
         Footer(Modifier.align(Alignment.BottomCenter))
     }
 }
@@ -102,22 +101,21 @@ fun Header(modifier: Modifier) {
 }
 
 @Composable
-fun Body(modifier: Modifier) {
-    var email by rememberSaveable { mutableStateOf("") }
-    var password by rememberSaveable { mutableStateOf("") }
-    var isLoginEnable by rememberSaveable { mutableStateOf(false) }
+fun Body(modifier: Modifier, loginViewModel: LoginViewModel) {
+
+    val email: String by loginViewModel.email.observeAsState(initial = "")
+    val password: String by loginViewModel.password.observeAsState(initial = "")
+    val isLoginEnable: Boolean by loginViewModel.isLoginEnabled.observeAsState(initial = false)
 
     Column(modifier = modifier, horizontalAlignment = CenterHorizontally) {
         ImageLogo()
         Spacer(modifier = Modifier.height(16.dp))
         EmailTextField(email) {
-            email = it
-            isLoginEnable = enableLogin(email, password)
+            loginViewModel.onLoginChanged(it, password)
         }
         Spacer(modifier = Modifier.size(8.dp))
         PasswordTextField(password) {
-            password = it
-            isLoginEnable = enableLogin(email, password)
+            loginViewModel.onLoginChanged(email, it)
         }
         Spacer(Modifier.size(8.dp))
         ForgotPassword(Modifier.align(Alignment.End))
@@ -128,6 +126,24 @@ fun Body(modifier: Modifier) {
         Spacer(modifier = Modifier.height(32.dp))
         SocialLogin()
     }
+}
+
+@Composable
+fun LoginButton(loginEnable: Boolean, modifier: Modifier) {
+    Button(
+        onClick = { },
+        enabled = loginEnable,
+        modifier = modifier,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xff4ea8e9),
+            disabledContainerColor = Color(0xff78c8f9),
+            contentColor = Color.White,
+            disabledContentColor = Color.White,
+        )
+    ) {
+        Text(text = "Log in")
+    }
+
 }
 
 
@@ -178,27 +194,6 @@ fun LoginDivider() {
         )
     }
 }
-
-@Composable
-fun LoginButton(loginEnable: Boolean, modifier: Modifier) {
-    Button(
-        onClick = { },
-        enabled = loginEnable,
-        modifier = modifier,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xff4ea8e9),
-            disabledContainerColor = Color(0xff78c8f9),
-            contentColor = Color.White,
-            disabledContentColor = Color.White,
-        )
-    ) {
-        Text(text = "Log in")
-    }
-
-}
-
-fun enableLogin(email: String, password: String): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length >= 8
-
 
 @Composable
 fun ForgotPassword(modifier: Modifier) {
