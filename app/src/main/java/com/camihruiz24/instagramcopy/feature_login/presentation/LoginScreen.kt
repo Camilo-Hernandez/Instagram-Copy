@@ -120,7 +120,9 @@ fun Body(modifier: Modifier, loginViewModel: LoginViewModel) {
         Spacer(Modifier.size(8.dp))
         ForgotPassword(Modifier.align(Alignment.End))
         Spacer(modifier = Modifier.height(16.dp))
-        LoginButton(isLoginEnable, modifier.fillMaxWidth())
+        LoginButton(isLoginEnable, modifier.fillMaxWidth()) {
+            loginViewModel.onLoginButtonPressed()
+        }
         Spacer(modifier = Modifier.height(24.dp))
         LoginDivider()
         Spacer(modifier = Modifier.height(32.dp))
@@ -129,9 +131,9 @@ fun Body(modifier: Modifier, loginViewModel: LoginViewModel) {
 }
 
 @Composable
-fun LoginButton(loginEnable: Boolean, modifier: Modifier) {
+fun LoginButton(loginEnable: Boolean, modifier: Modifier, onLoginButtonPressed: () -> Unit) {
     Button(
-        onClick = { },
+        onClick = onLoginButtonPressed,
         enabled = loginEnable,
         modifier = modifier,
         colors = ButtonDefaults.buttonColors(

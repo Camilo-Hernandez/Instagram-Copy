@@ -1,11 +1,17 @@
 package com.camihruiz24.instagramcopy.feature_login.presentation
 
+import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.camihruiz24.instagramcopy.feature_login.domain.LoginUseCase
+import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
+
+    val loginUseCase : LoginUseCase = LoginUseCase()
 
     private val _email = MutableLiveData<String>()
     val email : LiveData<String> = _email
@@ -23,5 +29,15 @@ class LoginViewModel : ViewModel() {
     }
 
     private fun enableLogin(email: String, password: String): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length >= 8
+
+    fun onLoginButtonPressed(){
+        viewModelScope.launch {
+            val response = loginUseCase(email.value!!, password.value!!)
+            if (response){
+                // TODO: Navegar a la siguiente pantalla
+                Log.i("Resultado de Login", "Result OK")
+            }
+        }
+    }
 
 }
