@@ -22,6 +22,9 @@ class LoginViewModel : ViewModel() {
     private val _isLoginEnabled = MutableLiveData<Boolean>()
     val isLoginEnabled : LiveData<Boolean> = _isLoginEnabled
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading : LiveData<Boolean> = _isLoading
+
     fun onLoginChanged(email: String, password: String) {
         _email.value = email
         _password.value = password
@@ -31,6 +34,10 @@ class LoginViewModel : ViewModel() {
     private fun enableLogin(email: String, password: String): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length >= 8
 
     fun onLoginButtonPressed(){
+        _isLoading.value = true
+
+        Thread.sleep(800)
+
         viewModelScope.launch {
             val response = loginUseCase(email.value!!, password.value!!)
             if (response){
@@ -38,6 +45,9 @@ class LoginViewModel : ViewModel() {
                 Log.i("Resultado de Login", "Result OK")
             }
         }
+
+        _isLoading.value = false
+
     }
 
 }

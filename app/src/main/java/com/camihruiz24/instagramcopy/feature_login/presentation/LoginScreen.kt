@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -35,7 +36,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -51,14 +51,24 @@ import com.camihruiz24.instagramcopy.R
 
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel) {
+
+    val isLoading : Boolean by loginViewModel.isLoading.observeAsState(initial = false)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Header(Modifier.align(Alignment.TopEnd))
-        Body(Modifier.align(Alignment.Center), loginViewModel)
-        Footer(Modifier.align(Alignment.BottomCenter))
+        if (isLoading){
+
+            Box {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            }
+        } else {
+            Header(Modifier.align(Alignment.TopEnd))
+            Body(Modifier.align(Alignment.Center), loginViewModel)
+            Footer(Modifier.align(Alignment.BottomCenter))
+        }
     }
 }
 
@@ -107,7 +117,7 @@ fun Body(modifier: Modifier, loginViewModel: LoginViewModel) {
     val password: String by loginViewModel.password.observeAsState(initial = "")
     val isLoginEnable: Boolean by loginViewModel.isLoginEnabled.observeAsState(initial = false)
 
-    Column(modifier = modifier, horizontalAlignment = CenterHorizontally) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         ImageLogo()
         Spacer(modifier = Modifier.height(16.dp))
         EmailTextField(email) {
