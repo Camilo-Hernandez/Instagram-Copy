@@ -52,7 +52,7 @@ dependencies {
 
     // Fundamentales de Android (core y activity)
     implementation 'androidx.core:core-ktx:1.10.1'
-    implementation 'androidx.activity:activity-compose:1.7.1'
+    implementation 'androidx.activity:activity-compose:1.7.2'
 
     // Dependencias de Compose
     implementation platform('androidx.compose:compose-bom:2022.10.00')
@@ -89,8 +89,6 @@ dependencies {
     // Dagger Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
     // Androidx Hilt
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
     kapt "androidx.hilt:hilt-compiler:1.0.0"

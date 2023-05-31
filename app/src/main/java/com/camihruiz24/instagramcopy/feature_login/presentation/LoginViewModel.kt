@@ -7,11 +7,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.camihruiz24.instagramcopy.feature_login.domain.LoginUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
-
-    val loginUseCase : LoginUseCase = LoginUseCase()
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val loginUseCase : LoginUseCase
+) : ViewModel() {
 
     private val _email = MutableLiveData<String>()
     val email : LiveData<String> = _email
@@ -36,17 +39,17 @@ class LoginViewModel : ViewModel() {
     fun onLoginButtonPressed(){
         _isLoading.value = true
 
-        Thread.sleep(800)
-
         viewModelScope.launch {
             val response = loginUseCase(email.value!!, password.value!!)
+            Log.i("Mi Login", "Entrando")
             if (response){
                 // TODO: Navegar a la siguiente pantalla
-                Log.i("Resultado de Login", "Result OK")
+                Log.i("Mi Login", "Result OK")
             }
+            _isLoading.value = false
+
         }
 
-        _isLoading.value = false
 
     }
 

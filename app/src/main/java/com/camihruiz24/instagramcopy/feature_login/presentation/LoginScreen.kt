@@ -59,16 +59,21 @@ fun LoginScreen(loginViewModel: LoginViewModel) {
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        if (isLoading){
 
-            Box {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        if (isLoading) {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .align(Alignment.Center),
+            contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
             }
+
         } else {
             Header(Modifier.align(Alignment.TopEnd))
             Body(Modifier.align(Alignment.Center), loginViewModel)
             Footer(Modifier.align(Alignment.BottomCenter))
         }
+
     }
 }
 
